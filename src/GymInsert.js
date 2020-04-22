@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import './ZymUpdate.css';
+import './GymInsert.css';
 import { OverlayTrigger, Tooltip, InputGroup, Image, Button, Form, Card } from "react-bootstrap";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ShowModal from "./ShowModal";
 
-class ZymUpdate extends Component {
+class GymInsert extends Component {
     constructor(props){
         super(props)
         this.handleIsShowChange = this.handleIsShowChange.bind(this);
@@ -15,7 +15,7 @@ class ZymUpdate extends Component {
         this.setState({
             isShowModal: false,
             modalText: null,
-            dailyUseChecked: (this.props.zym.dailyUse > 0) ? true : false
+            dailyUseChecked: (this.props.gym.dailyUse > 0) ? true : false
         })
     }
 
@@ -23,18 +23,20 @@ class ZymUpdate extends Component {
         this.setState({
             isShowModal: (isShow==='true')
         })
-        // Modal이 닫히면 UpdateMode false로 바꿔서 부모로 보냄
+        // Modal이 닫히면 InsertMode false로 바꿔서 부모로 보냄
         if(isShow === 'false'){
-            this.props.onIsUpdateModeChange(false)
+            this.props.onIsInsertModeChange(false)
         }
     }
 
     componentWillUnmount(){
-        this.props.onIsUpdateModeChange(false)
+        this.props.onIsInsertModeChange(false)
     }
 
     render(){
         const schema = Yup.object({
+            name: Yup.string()
+                .required('헬스장 이름을 입력해주세요.'),
             dailyUse: Yup.number()
                 .min((this.state.dailyUseChecked ? 1000 : 0), '요금을 정상적으로 입력해주세요')
                 .required('일일입장요금을 입력해주세요.'),
@@ -78,66 +80,78 @@ class ZymUpdate extends Component {
         
         return(
             <div className='leftPage'>
-                <div className='zymInfo'>
+                <div className='gymInfo'>
                     <Card>
-                        <Card.Header><strong>헬스장 정보 제보하기</strong></Card.Header>
-                        <Card.Body>
-                            <Card.Title as="h5"><strong>{this.props.zym.name}</strong></Card.Title>
-                            <Card.Text>{this.props.zym.address}</Card.Text>
-                        </Card.Body>
-                        <div className='p-2'>
-                            <Formik
-                                validationSchema={schema}
-                                onSubmit={values => {
-                                    if(values.dailyUseCheck && !values.dailyUseCheck[0]){
-                                        values.dailyUse = 0
-                                    }
-                                    const requestOptions = {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify(values)
-                                    };
-                                    
-                                    fetch('http://localhost:8080/gym/update', requestOptions)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        this.setState({
-                                            modalText: '저장이 완료되었습니다.',
-                                            isShowModal: true
-                                        })
-                                        this.props.onSelectedZymChange(data);
+                        <Formik
+                            validationSchema={schema}
+                            onSubmit={values => {
+                                if(values.dailyUseCheck && !values.dailyUseCheck[0]){
+                                    values.dailyUse = 0
+                                }
+                                const requestOptions = {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(values)
+                                };
+                                
+                                fetch('http://localhost:8080/gym/update', requestOptions)
+                                .then(response => response.json())
+                                .then(data => {
+                                    this.setState({
+                                        modalText: '저장이 완료되었습니다.',
+                                        isShowModal: true
                                     })
-                                }}
-                                initialValues={{
-                                    id: this.props.zym.id,
-                                    name: this.props.zym.name,
-                                    address: this.props.zym.address,
-                                    location: this.props.zym.location,
-                                    dailyUse: this.props.zym.dailyUse,
-                                    yogaRoom: this.props.zym.yogaRoom,
-                                    powerRack: this.props.zym.powerRack,
-                                    smithMachine: this.props.zym.smithMachine,
-                                    chiningDippingMachine: this.props.zym.chiningDippingMachine,
-                                    cableMachine: this.props.zym.cableMachine,
-                                    runningMachine: this.props.zym.runningMachine,
-                                    bench: this.props.zym.bench,
-                                    inclineBench: this.props.zym.inclineBench,
-                                    declineBench: this.props.zym.declineBench,
-                                    hackSquatMachine: this.props.zym.hackSquatMachine,
-                                    barbell: this.props.zym.barbell,
-                                    ezBar: this.props.zym.ezBar,
-                                }}
-                            >
-                                {({
-                                    handleSubmit,
-                                    handleChange,
-                                    handleBlur,
-                                    values,
-                                    touched,
-                                    isValid,
-                                    errors,
-                                }) => (
-                                <Form action="#" noValidate onSubmit={handleSubmit}>
+                                    this.props.onSelectedGymChange(data);
+                                })
+                            }}
+                            initialValues={{
+                                id: null,
+                                address: this.props.gym.address,
+                                location: this.props.gym.location,
+                                dailyUse: 0,
+                                yogaRoom: 0,
+                                powerRack: 0,
+                                smithMachine: 0,
+                                chiningDippingMachine: 0,
+                                cableMachine: 0,
+                                runningMachine: 0,
+                                bench: 0,
+                                inclineBench: 0,
+                                declineBench: 0,
+                                hackSquatMachine: 0,
+                                barbell: 0,
+                                ezBar: 0,
+                            }}
+                        >
+                        {({
+                            handleSubmit,
+                            handleChange,
+                            handleBlur,
+                            values,
+                            touched,
+                            isValid,
+                            errors,
+                        }) => (
+                            <Form action="#" noValidate onSubmit={handleSubmit}>
+                                <Card.Header><strong>새로운 헬스장 등록하기</strong></Card.Header>
+                                <Card.Body>
+                                    <Card.Title as="h5">
+                                        <Form.Control
+                                            size="lg"
+                                            type='text'
+                                            placeholder="헬스장 이름"
+                                            aria-describedby="inputGroupPrepend"
+                                            name="name"
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.name}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.name}
+                                        </Form.Control.Feedback>
+                                    </Card.Title>
+                                    <Card.Text>{this.props.gym.address}</Card.Text>
+                                </Card.Body>
+                                <div className='p-2'>
                                     <Form.Check
                                         type='switch'
                                         label="일일입장가능"
@@ -420,10 +434,10 @@ class ZymUpdate extends Component {
                                         </Form.Control.Feedback>
                                     </InputGroup>
                                     <Button type='submit' variant="secondary" className="mt-2" block>저장하기</Button>
-                                </Form>
-                                )}
-                            </Formik>
-                        </div>    
+                                </div>    
+                            </Form>
+                            )}
+                        </Formik>
                     </Card>
                 </div>
                 <ShowModal
@@ -436,4 +450,4 @@ class ZymUpdate extends Component {
     }
 }
 
-export default ZymUpdate
+export default GymInsert

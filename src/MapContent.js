@@ -2,16 +2,16 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import './MapContent.css';
-import ZymContent from './ZymContent';
-import ZymUpdate from './ZymUpdate';
-import ZymInsert from './ZymInsert';
+import GymContent from './GymContent';
+import GymUpdate from './GymUpdate';
+import GymInsert from './GymInsert';
 import MapFilter from './MapFilter';
 
 class MapContent extends Component {
 
     constructor(props){
         super(props)
-        this.handleSelectedZymChange = this.handleSelectedZymChange.bind(this);
+        this.handleSelectedGymChange = this.handleSelectedGymChange.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleIsUpdateModeChange = this.handleIsUpdateModeChange.bind(this);
         this.handleIsInsertModeChange = this.handleIsInsertModeChange.bind(this);
@@ -22,9 +22,9 @@ class MapContent extends Component {
             map: null,
             container: null,
             markers: [],
-            zymOverlays: [],
-            selectedZym: null,
-            insertedZym: null,
+            gymOverlays: [],
+            selectedGym: null,
+            insertedGym: null,
             isUpdateMode: false,
             isInsertMode: false,
             isDailyUse: false,
@@ -34,9 +34,9 @@ class MapContent extends Component {
         })
     }
 
-    // selectedZym 넘겨받은 후 지도 재탐색
-    handleSelectedZymChange(zym){
-        this.setState({selectedZym: zym})
+    // selectedGym 넘겨받은 후 지도 재탐색
+    handleSelectedGymChange(gym){
+        this.setState({selectedGym: gym})
         let center = this.state.map.getCenter();
         this._getMarkers(center.getLng(), center.getLat(), 1)
     }
@@ -84,25 +84,25 @@ class MapContent extends Component {
         return fetch('http://localhost:8080/gym/get/location?latitude=' + lat + '&longitude=' + lon + '&distance=' + distance)
             .then(response => response.json())
             .then((json) => {
-                json.map((zym, i) => {
+                json.map((gym, i) => {
                     let imageSrc = "/image/gym.png"
                     let imageSize = new kakao.maps.Size(50, 50)
                     let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
                     // 커스텀 오버레이
                     let content = '<div class="customoverlay">' +
-                        '    <span class="title">' + zym.name + '</span>' +
+                        '    <span class="title">' + gym.name + '</span>' +
                         '</div>';
 
                     // 필터링
                     let isFiltered = false
 
-                    if(this.state.isDailyUse && zym.dailyUse === 0){
+                    if(this.state.isDailyUse && gym.dailyUse === 0){
                         isFiltered = true
                     }
-                    if(this.state.isYogaRoom && zym.yogaRoom === 0){
+                    if(this.state.isYogaRoom && gym.yogaRoom === 0){
                         isFiltered = true
                     }
-                    if(this.state.isPowerRack && zym.powerRack === 0){
+                    if(this.state.isPowerRack && gym.powerRack === 0){
                         isFiltered = true
                     }
 
@@ -110,8 +110,8 @@ class MapContent extends Component {
                     if(!isFiltered){
                         let marker = new kakao.maps.Marker({
                             map: this.state.map, // 마커를 표시할 지도
-                            position: new kakao.maps.LatLng(parseFloat(zym.location.coordinates[1]), parseFloat(zym.location.coordinates[0])), // 마커를 표시할 위치
-                            title: zym.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                            position: new kakao.maps.LatLng(parseFloat(gym.location.coordinates[1]), parseFloat(gym.location.coordinates[0])), // 마커를 표시할 위치
+                            title: gym.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                             image: markerImage,
                             zIndex: 100,
                             clickable: true 
@@ -120,25 +120,25 @@ class MapContent extends Component {
                         // 마커 클릭하면 헬스장 정보가 나오도록 이벤트 리스너 등록
                         kakao.maps.event.addListener(marker, 'click', () => {
                             this.setState({
-                                selectedZym: null,
+                                selectedGym: null,
                                 isUpdateMode: false,
                                 isInsertMode: false
                             })
-                            this.setState({selectedZym: zym})
-                            this.state.map.panTo(new kakao.maps.LatLng(parseFloat(zym.location.coordinates[1]), parseFloat(zym.location.coordinates[0])))
+                            this.setState({selectedGym: gym})
+                            this.state.map.panTo(new kakao.maps.LatLng(parseFloat(gym.location.coordinates[1]), parseFloat(gym.location.coordinates[0])))
                         });
     
                         this.state.markers.push(marker)
     
-                        let zymOverlay = new kakao.maps.CustomOverlay({
+                        let gymOverlay = new kakao.maps.CustomOverlay({
                             map: this.state.map,
-                            position: new kakao.maps.LatLng(parseFloat(zym.location.coordinates[1]), parseFloat(zym.location.coordinates[0])),
+                            position: new kakao.maps.LatLng(parseFloat(gym.location.coordinates[1]), parseFloat(gym.location.coordinates[0])),
                             content: content,
                             yAnchor: 1.3,
                             clickable: true 
                         });
     
-                        this.state.zymOverlays.push(zymOverlay)
+                        this.state.gymOverlays.push(gymOverlay)
                     }
                 })
             })
@@ -148,7 +148,7 @@ class MapContent extends Component {
     _removeMarkers = () => {
         while (this.state.markers.length > 0) {
             this.state.markers.pop().setMap(null)
-            this.state.zymOverlays.pop().setMap(null)
+            this.state.gymOverlays.pop().setMap(null)
         }
     }
 
@@ -204,7 +204,7 @@ class MapContent extends Component {
                 // 지도 클릭하면 선택된 헬스장 null
                 kakao.maps.event.addListener(this.state.map, 'click', () => {
                     this.setState({
-                        selectedZym: null,
+                        selectedGym: null,
                         isUpdateMode: false,
                         isInsertMode: false
                     })
@@ -214,7 +214,7 @@ class MapContent extends Component {
                 kakao.maps.event.addListener(this.state.map, 'rightclick', function(mouseEvent) {
                     this.setState({
                         isInsertMode: false,
-                        insertedZym: null
+                        insertedGym: null
                     })
                     let latlng = mouseEvent.latLng;
                     let geocoder = new kakao.maps.services.Geocoder();
@@ -222,7 +222,7 @@ class MapContent extends Component {
                     geocoder.coord2Address(latlng.getLng(), latlng.getLat(), (result, status) => {
                         if (status === kakao.maps.services.Status.OK) {
                             this.setState({
-                                insertedZym: {
+                                insertedGym: {
                                     address: !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name,
                                     location: {
                                         coordinates: [latlng.getLng(), latlng.getLat()]
@@ -241,10 +241,10 @@ class MapContent extends Component {
         return (
         <main>
             <MapContents id="Mymap" />
-            {(!this.state.isUpdateMode && this.state.selectedZym != null) ? <ZymContent key='zymContent' zym={this.state.selectedZym} onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}            
+            {(!this.state.isUpdateMode && this.state.selectedGym != null) ? <GymContent key='gymContent' gym={this.state.selectedGym} onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}            
             <MapFilter key="mapFilter" onFilterChange={this.handleFilterChange}/>
-            {(this.state.isUpdateMode && this.state.selectedZym != null) ? <ZymUpdate key='zymUpdate' zym={this.state.selectedZym} onSelectedZymChange={this.handleSelectedZymChange} onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}
-            {this.state.isInsertMode ? <ZymInsert key='zymInsert' zym={this.state.insertedZym} onSelectedZymChange={this.handleSelectedZymChange} onIsInsertModeChange={this.handleIsInsertModeChange} /> : null}
+            {(this.state.isUpdateMode && this.state.selectedGym != null) ? <GymUpdate key='gymUpdate' gym={this.state.selectedGym} onSelectedGymChange={this.handleSelectedGymChange} onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}
+            {this.state.isInsertMode ? <GymInsert key='gymInsert' gym={this.state.insertedGym} onSelectedGymChange={this.handleSelectedGymChange} onIsInsertModeChange={this.handleIsInsertModeChange} /> : null}
         </main> )
     }
 }

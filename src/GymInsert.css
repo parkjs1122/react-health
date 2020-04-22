@@ -9,29 +9,29 @@
     border-radius: 10px;
 }
 
-.zymInfo {
+.gymInfo {
     letter-spacing: -1px;
 }
 
-.zymInfo img {
+.gymInfo img {
     width: 24px;
     height: 24px;
 }
 
-.zymName {
+.gymName {
     margin-bottom: 8px;
     font-size: 20px;
     color: rgb(44, 55, 68);
     font-weight: bold;
 }
 
-.zymAddress {
+.gymAddress {
     margin-bottom: 16px;
     font-size: 14px;
     color: rgb(160, 160, 160);
 }
 
-.zymMachineInfo {
+.gymMachineInfo {
     margin-top: 15px;
     margin-bottom: 8px;
     font-size: 18px;

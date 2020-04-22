@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { OverlayTrigger, Tooltip, Badge, InputGroup, Form, Image, Button, Card } from "react-bootstrap";
-import './ZymContent.css';
+import './GymContent.css';
 
-class ZymContent extends Component {
+class GymContent extends Component {
     constructor(props){
         super(props)
-        this.handleZymChange = this.handleZymChange.bind(this);
+        this.handleGymChange = this.handleGymChange.bind(this);
         this.handleIsUpdateModeChange = this.handleIsUpdateModeChange.bind(this);
     }
 
     componentWillMount(){
         this.setState({
-            zym: this.props.zym,
+            gym: this.props.gym,
             isUpdateMode: false
         })
     }
@@ -27,10 +27,10 @@ class ZymContent extends Component {
         this.props.onIsUpdateModeChange(true)
     }
 
-    // zym state 넘겨받기
-    handleZymChange(zym){
-        this.setState({zym: zym})
-        this.props.onSelecteZymChange()
+    // gym state 넘겨받기
+    handleGymChange(gym){
+        this.setState({gym: gym})
+        this.props.onSelecteGymChange()
     }
     
     // isUpdateMode state 넘겨받기
@@ -39,23 +39,23 @@ class ZymContent extends Component {
     }
 
     render(){
-        if(this.state.zym.updatedDate != null){
+        if(this.state.gym.updatedDate != null){
             return(
                 <div className='leftPage'>
-                    <div className='zymInfo'>
+                    <div className='gymInfo'>
                         <Card>
                             <Card.Header><strong>헬스장 정보</strong></Card.Header>
                             <Card.Body>
-                                <Card.Title as="h5"><strong>{this.state.zym.name}</strong> {(this.state.zym.dailyUse != null && this.state.zym.dailyUse > 0) ? <Badge variant="secondary">일일입장가능</Badge> : ''}</Card.Title>
-                                <Card.Text>{this.state.zym.address}</Card.Text>
+                                <Card.Title as="h5"><strong>{this.state.gym.name}</strong> {(this.state.gym.dailyUse != null && this.state.gym.dailyUse > 0) ? <Badge variant="secondary">일일입장가능</Badge> : ''}</Card.Title>
+                                <Card.Text>{this.state.gym.address}</Card.Text>
                             </Card.Body>      
                             <div className='p-2'>
-                               {(this.state.zym.dailyUse > 0) ?
+                               {(this.state.gym.dailyUse > 0) ?
                                 <InputGroup className="mb-1">
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>일일입장요금</InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.dailyUse} />
+                                    <Form.Control value={this.state.gym.dailyUse} />
                                     <InputGroup.Append>
                                         <InputGroup.Text>원</InputGroup.Text>
                                     </InputGroup.Append>
@@ -68,7 +68,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control className="border-right-0" value={this.state.zym.yogaRoom} />
+                                    <Form.Control className="border-right-0" value={this.state.gym.yogaRoom} />
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>
                                         <OverlayTrigger overlay={<Tooltip id="tooltip">파워랙</Tooltip>}>
@@ -76,7 +76,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.powerRack} />
+                                    <Form.Control value={this.state.gym.powerRack} />
                                 </InputGroup>
                                 <InputGroup size="lg" className="mb-1">
                                     <InputGroup.Prepend>
@@ -86,7 +86,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control className="border-right-0" value={this.state.zym.smithMachine} />
+                                    <Form.Control className="border-right-0" value={this.state.gym.smithMachine} />
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>
                                         <OverlayTrigger overlay={<Tooltip id="tooltip">치닝디핑머신</Tooltip>}>
@@ -94,7 +94,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.chiningDippingMachine} />
+                                    <Form.Control value={this.state.gym.chiningDippingMachine} />
                                 </InputGroup>
                                 <InputGroup size="lg" className="mb-1">
                                     <InputGroup.Prepend>
@@ -104,7 +104,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control className="border-right-0" value={this.state.zym.cableMachine} />
+                                    <Form.Control className="border-right-0" value={this.state.gym.cableMachine} />
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>
                                         <OverlayTrigger overlay={<Tooltip id="tooltip">런닝머신</Tooltip>}>
@@ -112,7 +112,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.runningMachine} />
+                                    <Form.Control value={this.state.gym.runningMachine} />
                                 </InputGroup>
                                 <InputGroup size="lg" className="mb-1">
                                     <InputGroup.Prepend>
@@ -122,7 +122,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control className="border-right-0" value={this.state.zym.bench} />
+                                    <Form.Control className="border-right-0" value={this.state.gym.bench} />
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>
                                         <OverlayTrigger overlay={<Tooltip id="tooltip">인클라인벤치</Tooltip>}>
@@ -130,7 +130,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.inclineBench} />
+                                    <Form.Control value={this.state.gym.inclineBench} />
                                 </InputGroup>
                                 <InputGroup size="lg" className="mb-1">
                                     <InputGroup.Prepend>
@@ -140,7 +140,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control className="border-right-0" value={this.state.zym.declineBench} />
+                                    <Form.Control className="border-right-0" value={this.state.gym.declineBench} />
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>
                                         <OverlayTrigger overlay={<Tooltip id="tooltip">핵스쿼트머신</Tooltip>}>
@@ -148,7 +148,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.hackSquatMachine} />
+                                    <Form.Control value={this.state.gym.hackSquatMachine} />
                                 </InputGroup>
                                 <InputGroup size="lg" className="mb-1">
                                     <InputGroup.Prepend>
@@ -158,7 +158,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control className="border-right-0" value={this.state.zym.barbell} />
+                                    <Form.Control className="border-right-0" value={this.state.gym.barbell} />
                                     <InputGroup.Prepend>
                                     <InputGroup.Text>
                                         <OverlayTrigger overlay={<Tooltip id="tooltip">EZ바</Tooltip>}>
@@ -166,7 +166,7 @@ class ZymContent extends Component {
                                         </OverlayTrigger>
                                     </InputGroup.Text>
                                     </InputGroup.Prepend>
-                                    <Form.Control value={this.state.zym.ezBar} />
+                                    <Form.Control value={this.state.gym.ezBar} />
                                 </InputGroup>
                             </div>        
                         </Card>
@@ -177,12 +177,12 @@ class ZymContent extends Component {
         }else{
             return(
                 <div className='leftPage'>
-                    <div className='zymInfo'>
+                    <div className='gymInfo'>
                         <Card>
                             <Card.Header><strong>헬스장 정보</strong></Card.Header>
                             <Card.Body>
-                                <Card.Title as="h5"><strong>{this.state.zym.name}</strong></Card.Title>
-                                <Card.Text>{this.state.zym.address}</Card.Text>
+                                <Card.Title as="h5"><strong>{this.state.gym.name}</strong></Card.Title>
+                                <Card.Text>{this.state.gym.address}</Card.Text>
                             </Card.Body>      
                         </Card>
                     </div>
@@ -193,4 +193,4 @@ class ZymContent extends Component {
     }
 }
 
-export default ZymContent
+export default GymContent

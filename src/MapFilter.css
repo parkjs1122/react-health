@@ -1,0 +1,10 @@
+.rightPage {
+    position: fixed;
+    top: 70px;
+    right: 16px;
+    width: 190px;
+    max-height: calc(100% - 192px);
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
+    z-index: 100;
+    border-radius: 10px;
+}

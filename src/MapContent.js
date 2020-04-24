@@ -6,6 +6,7 @@ import GymContent from './GymContent';
 import GymUpdate from './GymUpdate';
 import GymInsert from './GymInsert';
 import MapFilter from './MapFilter';
+import MapSearchResult from './MapSearchResult';
 
 class MapContent extends Component {
 
@@ -81,7 +82,7 @@ class MapContent extends Component {
             return true
         }
 
-        return fetch('http://localhost:8080/gym/get/location?latitude=' + lat + '&longitude=' + lon + '&distance=' + distance)
+        return fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/location/' + lon + '/' + lat + '/' + distance)
             .then(response => response.json())
             .then((json) => {
                 json.map((gym, i) => {
@@ -124,6 +125,7 @@ class MapContent extends Component {
                                 isUpdateMode: false,
                                 isInsertMode: false
                             })
+                            this.props.onSearchResultChange(null) // 검색결과 닫기
                             this.setState({selectedGym: gym})
                             this.state.map.panTo(new kakao.maps.LatLng(parseFloat(gym.location.coordinates[1]), parseFloat(gym.location.coordinates[0])))
                         });
@@ -175,9 +177,21 @@ class MapContent extends Component {
                 if (navigator.geolocation) {
                     // GeoLocation을 이용해서 접속 위치 얻음
                     navigator.geolocation.getCurrentPosition((position) => {
-                        lat = position.coords.latitude;
-                        lon = position.coords.longitude;
+                        lat = position.coords.latitude
+                        lon = position.coords.longitude
                         this.state.map.setCenter(new kakao.maps.LatLng(lat, lon))
+
+                        // 현재 위치에 마커 표시
+                        let imageSrc = "/image/now-location.png"
+                        let imageSize = new kakao.maps.Size(60, 60)
+                        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
+
+                        new kakao.maps.Marker({
+                            map: this.state.map, // 마커를 표시할 지도
+                            position: new kakao.maps.LatLng(lat, lon), // 마커를 표시할 위치
+                            title: '현재위치', // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                            image: markerImage
+                        });
 
                         // 초기 위치 헬스장 정보 조회
                         let center = this.state.map.getCenter();
@@ -188,11 +202,13 @@ class MapContent extends Component {
                 // 초기 위치 헬스장 정보 조회
                 let center = this.state.map.getCenter();
                 this._getMarkers(center.getLng(), center.getLat(), 2)
+                this.props.onNowLonLatChange(center.getLng(), center.getLat())
 
                 // 지도 이동 시 헬스장 정보 재조회
                 kakao.maps.event.addListener(this.state.map, 'dragend', () => {
                     let center = this.state.map.getCenter();
                     this._getMarkers(center.getLng(), center.getLat(), 1)
+                    this.props.onNowLonLatChange(center.getLng(), center.getLat())
                 });
 
                 // 지도 확대/축소 시 헬스장 정보 재조회
@@ -208,14 +224,17 @@ class MapContent extends Component {
                         isUpdateMode: false,
                         isInsertMode: false
                     })
+                    // 검색결과창 닫기 위해 검색결과 초기화
+                    this.props.onSearchResultChange(null)
                 });
 
-                // 지도 더블클릭 시 헬스장 등록
+                // 지도 우클릭시 헬스장 등록
                 kakao.maps.event.addListener(this.state.map, 'rightclick', function(mouseEvent) {
                     this.setState({
                         isInsertMode: false,
                         insertedGym: null
                     })
+                    this.props.onSearchResultChange(null) // 검색결과 닫기
                     let latlng = mouseEvent.latLng;
                     let geocoder = new kakao.maps.services.Geocoder();
                     // 주소 불러오기
@@ -241,10 +260,29 @@ class MapContent extends Component {
         return (
         <main>
             <MapContents id="Mymap" />
-            {(!this.state.isUpdateMode && this.state.selectedGym != null) ? <GymContent key='gymContent' gym={this.state.selectedGym} onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}            
-            <MapFilter key="mapFilter" onFilterChange={this.handleFilterChange}/>
-            {(this.state.isUpdateMode && this.state.selectedGym != null) ? <GymUpdate key='gymUpdate' gym={this.state.selectedGym} onSelectedGymChange={this.handleSelectedGymChange} onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}
-            {this.state.isInsertMode ? <GymInsert key='gymInsert' gym={this.state.insertedGym} onSelectedGymChange={this.handleSelectedGymChange} onIsInsertModeChange={this.handleIsInsertModeChange} /> : null}
+            {(!this.state.isUpdateMode && this.state.selectedGym != null) ?
+            <GymContent key='gymContent'
+                gym={this.state.selectedGym}
+                onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}            
+            <MapFilter key="mapFilter"
+                onFilterChange={this.handleFilterChange}/>
+            {this.props.searchResult ?
+            <MapSearchResult key='mapSearchResult'
+                gym={this.props.searchResult}
+                map={this.state.map}
+                _getMarkers={this._getMarkers}
+                nowLon={this.state.map.getCenter().getLng()}
+                nowLat={this.state.map.getCenter().getLat()} /> : null}
+            {(this.state.isUpdateMode && this.state.selectedGym != null) ? 
+            <GymUpdate key='gymUpdate'
+                gym={this.state.selectedGym}
+                onSelectedGymChange={this.handleSelectedGymChange}
+                onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}
+            {this.state.isInsertMode ?
+            <GymInsert key='gymInsert'
+                gym={this.state.insertedGym}
+                onSelectedGymChange={this.handleSelectedGymChange}
+                onIsInsertModeChange={this.handleIsInsertModeChange} /> : null}
         </main> )
     }
 }

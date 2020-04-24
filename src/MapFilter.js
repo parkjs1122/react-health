@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, Card } from "react-bootstrap";
 import './MapFilter.css';
 
-class ShowModal extends Component {
+class MapFilter extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -60,4 +60,4 @@ class ShowModal extends Component {
     }
 }
   
-export default ShowModal
+export default MapFilter

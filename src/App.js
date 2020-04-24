@@ -4,15 +4,39 @@ import MapContent from './MapContent';
 import Top from './include/Top.js';
 
 class App extends Component {
-  componentDidMount(){
+  constructor(props){
+    super(props)
+    this.handleSearchResultChange = this.handleSearchResultChange.bind(this)
+    this.handleNowLonLatChange = this.handleNowLonLatChange.bind(this)
+  }
+
+  componentWillMount(){
     document.title = "헬스닷컴"
+    this.setState({
+      searchResult: null,
+      nowLon: null,
+      nowLat: null
+    })
+  }
+
+  // searchResult state 넘겨받기
+  handleSearchResultChange(searchResult){
+    this.setState({searchResult: searchResult})
+  }
+
+  // 현재위치 넘겨받기
+  handleNowLonLatChange(nowLon, nowLat){
+    this.setState({
+      nowLon: nowLon,
+      nowLat: nowLat
+    })
   }
 
   render() {
     return (
       <div className='wrap'>
-        <Top key='top' />
-        <MapContent key='mapContent' />
+        <Top key='top' onSearchResultChange={this.handleSearchResultChange} nowLon={this.state.nowLon} nowLat={this.state.nowLat} />
+        <MapContent key='mapContent' searchResult={this.state.searchResult} onSearchResultChange={this.handleSearchResultChange} onNowLonLatChange={this.handleNowLonLatChange}/>
       </div>
     );
   }

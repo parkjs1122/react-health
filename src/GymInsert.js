@@ -94,7 +94,7 @@ class GymInsert extends Component {
                                     body: JSON.stringify(values)
                                 };
                                 
-                                fetch('http://localhost:8080/gym/update', requestOptions)
+                                fetch(process.env.REACT_APP_SERVER_HOST + '/gym/update', requestOptions)
                                 .then(response => response.json())
                                 .then(data => {
                                     this.setState({

@@ -80,7 +80,7 @@ class GymInsert extends Component {
         
         return(
             <div className='leftPage'>
-                <div className='gymInfo'>
+                <div className='gymInfoPc'>
                     <Card>
                         <Formik
                             validationSchema={schema}

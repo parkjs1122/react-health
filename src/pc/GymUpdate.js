@@ -78,7 +78,7 @@ class GymUpdate extends Component {
         
         return(
             <div className='leftPage'>
-                <div className='gymInfo'>
+                <div className='gymInfoPc'>
                     <Card>
                         <Card.Header><strong>헬스장 정보 제보하기</strong></Card.Header>
                         <Card.Body>

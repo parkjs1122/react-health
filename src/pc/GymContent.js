@@ -42,7 +42,7 @@ class GymContent extends Component {
         if(this.state.gym.updatedDate != null){
             return(
                 <div className='leftPage'>
-                    <div className='gymInfo'>
+                    <div className='gymInfoPc'>
                         <Card>
                             <Card.Header><strong>헬스장 정보</strong></Card.Header>
                             <Card.Body>

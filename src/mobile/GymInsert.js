@@ -117,6 +117,7 @@ class GymInsert extends Component {
                                         isShowModal: true
                                     })
                                     this.props.onSelectedGymChange(data);
+                                    this.props.pageView('/Mobile/GymInsertOK/' + data.name)
                                 })
                             }}
                             initialValues={{

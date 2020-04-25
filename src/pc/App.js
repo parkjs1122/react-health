@@ -32,11 +32,23 @@ class App extends Component {
     })
   }
 
+  // Google analytics
+  componentDidMount(){
+    this.props.pageView('/PC')
+  }
+
   render() {
     return (
       <div className='wrap'>
-        <Top key='top' onSearchResultChange={this.handleSearchResultChange} nowLon={this.state.nowLon} nowLat={this.state.nowLat} />
-        <MapContent key='mapContent' searchResult={this.state.searchResult} onSearchResultChange={this.handleSearchResultChange} onNowLonLatChange={this.handleNowLonLatChange}/>
+        <Top key='top'
+          onSearchResultChange={this.handleSearchResultChange}
+          nowLon={this.state.nowLon}
+          nowLat={this.state.nowLat} />
+        <MapContent key='mapContent'
+          searchResult={this.state.searchResult}
+          onSearchResultChange={this.handleSearchResultChange}
+          onNowLonLatChange={this.handleNowLonLatChange}
+          pageView={this.props.pageView} />
       </div>
     );
   }

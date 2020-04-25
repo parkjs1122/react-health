@@ -19,6 +19,11 @@ class GymUpdate extends Component {
         })
     }
 
+    // Google analytics
+    componentDidMount(){
+        this.props.pageView('/Mobile/GymUpdate/' + this.props.gym.name)
+    }
+
     handleIsShowChange(isShow){
         this.setState({
             isShowModal: (isShow==='true')
@@ -120,6 +125,7 @@ class GymUpdate extends Component {
                                             isShowModal: true
                                         })
                                         this.props.onSelectedGymChange(data);
+                                        this.props.pageView('/Mobile/GymUpdateOK/' + this.props.gym.name)
                                     })
                                 }}
                                 initialValues={{

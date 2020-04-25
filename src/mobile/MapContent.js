@@ -273,9 +273,11 @@ class MapContent extends Component {
                     onClick={() => {
                         this.setState({isFilterShow: true})
                     }} />
+                <div className="rightsInfo">헬스장 위치 데이터 출처:서울열린데이터광장, 공공데이터포털, 경기데이터드림</div>
                 <MapContents id="Mymap" />
                 {(!this.state.isUpdateMode && this.state.selectedGym != null) ?
                 <GymContent key='gymContent'
+                    pageView={this.props.pageView}
                     gym={this.state.selectedGym}
                     onSelectedGymChange={this.handleSelectedGymChange}
                     onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}   
@@ -296,11 +298,13 @@ class MapContent extends Component {
                     nowLat={this.state.map.getCenter().getLat()} /> : null}
                 {(this.state.isUpdateMode && this.state.selectedGym != null) ? 
                 <GymUpdate key='gymUpdate'
+                    pageView={this.props.pageView}
                     gym={this.state.selectedGym}
                     onSelectedGymChange={this.handleSelectedGymChange}
                     onIsUpdateModeChange={this.handleIsUpdateModeChange} /> : null}
                 {this.state.isInsertMode ?
                 <GymInsert key='gymInsert'
+                    pageView={this.props.pageView}
                     gym={this.state.insertedGym}
                     onSelectedGymChange={this.handleSelectedGymChange}
                     onIsInsertModeChange={this.handleIsInsertModeChange} /> : null}

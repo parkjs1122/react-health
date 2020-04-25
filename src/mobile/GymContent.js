@@ -22,6 +22,11 @@ class GymContent extends Component {
         })
     }
 
+    // Google analytics
+    componentDidMount(){
+        this.props.pageView('/Mobile/GymContent/' + this.state.gym.name)
+    }
+
     // 제보하기 창 띄우기
     _onButtonClick = () => {
         this.props.onIsUpdateModeChange(true)

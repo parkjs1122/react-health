@@ -56,3 +56,13 @@ main {
     padding: 20px 60px 20px 60px;
     border-radius: 35px;
 }
+
+.rightsInfo {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    z-index: 2;
+    background: #fff;
+    padding: 1px;
+    font-size: 12px;
+}

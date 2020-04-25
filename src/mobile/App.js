@@ -33,6 +33,11 @@ class App extends Component {
     })
   }
 
+  // Google analytics
+  componentDidMount(){
+    this.props.pageView('/Mobile')
+  }
+
   render() {
     return (
       <Div100vh className='wrap'>
@@ -43,7 +48,8 @@ class App extends Component {
         <MapContent key='mapContent'
           isSearchMode={this.state.isSearchMode}
           onIsSearchModeChange={this.handleIsSearchModeChange}
-          onNowLonLatChange={this.handleNowLonLatChange}/>
+          onNowLonLatChange={this.handleNowLonLatChange}
+          pageView={this.props.pageView} />
       </Div100vh>
     );
   }

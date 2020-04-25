@@ -17,6 +17,7 @@
     "react-device-detect": "^1.11.14",
     "react-div-100vh": "^0.3.8",
     "react-dom": "^16.13.1",
+    "react-ga": "^2.7.0",
     "react-hook-form": "^5.5.0",
     "react-scripts": "3.4.1",
     "reactstrap": "^8.4.1",

@@ -7,9 +7,19 @@ import MobileApp from './mobile/App';
 import * as serviceWorker from './serviceWorker';
 import { isMobile } from 'react-device-detect';
 
+// Google analytics 초기화
+var ReactGA = require('react-ga');
+ReactGA.initialize('UA-164536899-1');
+
+// Google analytics 페이지뷰 함수
+function pageView(page) {
+  ReactGA.set({ page: page });
+  ReactGA.pageview(page);
+}
+
 ReactDOM.render(
   <React.StrictMode>
-    {isMobile ? <MobileApp /> : <PcApp />}
+    {isMobile ? <MobileApp pageView={pageView} /> : <PcApp pageView={pageView} />}
   </React.StrictMode>,
   document.getElementById('root')
 );

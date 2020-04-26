@@ -4,6 +4,8 @@ import { OverlayTrigger, Tooltip, InputGroup, Image, Button, Form, Card } from "
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ShowModal from "./ShowModal";
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
+import Loader from 'react-promise-loader';
 
 class GymUpdate extends Component {
     constructor(props){
@@ -83,6 +85,7 @@ class GymUpdate extends Component {
         
         return(
             <div className='leftPage'>
+                <Loader type="ThreeDots" background="none" color="#666" promiseTracker={usePromiseTracker} />
                 <div className='gymInfoPc'>
                     <Card>
                         <Card.Header><strong>헬스장 정보 제보하기</strong></Card.Header>
@@ -103,7 +106,7 @@ class GymUpdate extends Component {
                                         body: JSON.stringify(values)
                                     };
                                     
-                                    fetch(process.env.REACT_APP_SERVER_HOST + '/gym/update', requestOptions)
+                                    trackPromise(fetch(process.env.REACT_APP_SERVER_HOST + '/gym/update', requestOptions))
                                     .then(response => response.json())
                                     .then(data => {
                                         this.setState({
@@ -437,7 +440,6 @@ class GymUpdate extends Component {
                     message={this.state.modalText}
                     onIsShowChange={this.handleIsShowChange} />
             </div>
-            
         )
     }
 }

@@ -4,6 +4,8 @@ import { OverlayTrigger, Tooltip, InputGroup, Image, Button, Form, Card } from "
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ShowModal from "./ShowModal";
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
+import Loader from 'react-promise-loader';
 
 class GymInsert extends Component {
     constructor(props){
@@ -80,6 +82,7 @@ class GymInsert extends Component {
         
         return(
             <div className='leftPage'>
+                <Loader type="ThreeDots" background="none" color="#666" promiseTracker={usePromiseTracker} />
                 <div className='gymInfoPc'>
                     <Card>
                         <Formik
@@ -94,7 +97,7 @@ class GymInsert extends Component {
                                     body: JSON.stringify(values)
                                 };
                                 
-                                fetch(process.env.REACT_APP_SERVER_HOST + '/gym/update', requestOptions)
+                                trackPromise(fetch(process.env.REACT_APP_SERVER_HOST + '/gym/update', requestOptions))
                                 .then(response => response.json())
                                 .then(data => {
                                     this.setState({

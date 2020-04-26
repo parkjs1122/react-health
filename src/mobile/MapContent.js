@@ -8,6 +8,8 @@ import GymInsert from './GymInsert';
 import MapFilter from './MapFilter';
 import MapSearchResult from './MapSearchResult';
 import { Image } from "react-bootstrap";
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
+import Loader from 'react-promise-loader';
 
 class MapContent extends Component {
 
@@ -90,7 +92,7 @@ class MapContent extends Component {
             return true
         }
 
-        return fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/location/' + lon + '/' + lat + '/' + distance)
+        return trackPromise(fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/location/' + lon + '/' + lat + '/' + distance))
             .then(response => response.json())
             .then((json) => {
                 json.map((gym, i) => {
@@ -266,6 +268,7 @@ class MapContent extends Component {
     render() {
         return (
             <main>
+                <Loader type="ThreeDots" background="none" color="#666" promiseTracker={usePromiseTracker} />
                 <Image src="/image/filter.png"
                     className="filterButton"
                     widht="50"

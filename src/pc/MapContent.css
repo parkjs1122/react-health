@@ -66,3 +66,15 @@ main {
     padding: 1px;
     font-size: 12px;
 }
+
+.mapLoader {
+    position: fixed;
+    left: calc(50% - 50px);
+    top: calc(50% - 50px);
+    z-index: 2;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

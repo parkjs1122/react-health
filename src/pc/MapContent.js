@@ -7,6 +7,8 @@ import GymUpdate from './GymUpdate';
 import GymInsert from './GymInsert';
 import MapFilter from './MapFilter';
 import MapSearchResult from './MapSearchResult';
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
+import Loader from 'react-promise-loader';
 
 class MapContent extends Component {
 
@@ -31,7 +33,7 @@ class MapContent extends Component {
             isDailyUse: false,
             isYogaRoom: false,
             isPowerRack: false,
-            warningOverlay: null
+            warningOverlay: null,
         })
     }
 
@@ -81,8 +83,8 @@ class MapContent extends Component {
             })}) 
             return true
         }
-
-        return fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/location/' + lon + '/' + lat + '/' + distance)
+        
+        return trackPromise(fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/location/' + lon + '/' + lat + '/' + distance))
             .then(response => response.json())
             .then((json) => {
                 json.map((gym, i) => {
@@ -263,6 +265,7 @@ class MapContent extends Component {
     render() {
         return (
         <main>
+            <Loader type="ThreeDots" background="none" color="#666" promiseTracker={usePromiseTracker} />
             <div className="rightsInfo">헬스장 위치 데이터 출처:서울열린데이터광장, 공공데이터포털, 경기데이터드림</div>
             <MapContents id="Mymap" />
             {(!this.state.isUpdateMode && this.state.selectedGym != null) ?

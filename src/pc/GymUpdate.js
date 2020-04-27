@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import './GymUpdate.css';
 import { OverlayTrigger, Tooltip, InputGroup, Image, Button, Form, Card } from "react-bootstrap";
 import { Formik } from 'formik';
 import * as Yup from 'yup';

@@ -42,3 +42,148 @@
   display: flex;
   flex-direction: column;
 }
+
+main {
+  flex: 1;
+}
+
+.customoverlay {
+  position: relative;
+  bottom: 47px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  float: left;
+}
+
+.customoverlay:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+  background: #fff;
+}
+
+.customoverlay a {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  background: #d95050;
+  background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+}
+
+.customoverlay .title {
+  display: block;
+  text-align: center;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.customoverlay:after {
+  content: '';
+  position: absolute;
+  margin-left: -12px;
+  left: 50%;
+  bottom: -12px;
+  width: 22px;
+  height: 12px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.levelWarning {
+  background: #000;
+  color: #fff;
+  opacity: 0.8;
+  padding: 20px 60px 20px 60px;
+  border-radius: 35px;
+}
+
+.rightsInfoPc {
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  z-index: 2;
+  background: #fff;
+  padding: 1px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.mapLoader {
+  position: fixed;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  z-index: 2;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightPage {
+  position: fixed;
+  top: 70px;
+  right: 16px;
+  width: 190px;
+  max-height: calc(100% - 192px);
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
+  z-index: 100;
+  border-radius: 10px;
+}
+
+.leftPage {
+  position: fixed;
+  top: 70px;
+  left: 16px;
+  width: 360px;
+  max-height: calc(100% - 192px);
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
+  z-index: 100;
+  border-radius: 10px;
+}
+
+.gymInfoPc {
+  letter-spacing: 0px;
+}
+
+.gymInfoPc img {
+  width: 24px;
+  height: 24px;
+}
+
+.gymName {
+  margin-bottom: 8px;
+  font-size: 20px;
+  color: rgb(44, 55, 68);
+  font-weight: bold;
+}
+
+.gymAddress {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: rgb(160, 160, 160);
+}
+
+.gymMachineInfo {
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: rgb(44, 55, 68);
+  font-weight: bold;
+}
+
+.gymList {
+  padding: 10px;
+  overflow-y: scroll;
+  max-height: 500px;
+  letter-spacing: -1px;
+}
+
+.searchResultCard {
+  cursor: pointer;
+}

@@ -1,11 +1,11 @@
 /*global kakao*/
 import React, { Component } from "react";
 import styled from "styled-components";
-import './MapContent.css';
 import GymContent from './GymContent';
 import GymUpdate from './GymUpdate';
 import GymInsert from './GymInsert';
 import MapFilter from './MapFilter';
+import ShowModal from './ShowModal';
 import MapSearchResult from './MapSearchResult';
 import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 import Loader from 'react-promise-loader';
@@ -18,6 +18,7 @@ class MapContent extends Component {
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleIsUpdateModeChange = this.handleIsUpdateModeChange.bind(this);
         this.handleIsInsertModeChange = this.handleIsInsertModeChange.bind(this);
+        this.handleIsShowChange = this.handleIsShowChange.bind(this);
     }
 
     componentWillMount(){
@@ -34,6 +35,7 @@ class MapContent extends Component {
             isYogaRoom: false,
             isPowerRack: false,
             warningOverlay: null,
+            isShowModal: false
         })
     }
 
@@ -66,6 +68,13 @@ class MapContent extends Component {
     // isInsertMode 넘겨받기
     handleIsInsertModeChange(isInsertMode){
         this.setState({isInsertMode: isInsertMode})
+    }
+
+    // 저작권 표시 modal 닫을 때 사용하는 함수
+    handleIsShowChange(isShow){
+        this.setState({
+            isShowModal: (isShow==='true')
+        })
     }
 
     _getMarkers = (lon, lat, distance) => {
@@ -263,10 +272,33 @@ class MapContent extends Component {
     }
 
     render() {
+        const rights = [
+            <p><strong>아이콘 출처</strong></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/freepik" target="blank">Freepik</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/iconixar" target="blank">iconixar</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/nikita-golubev" target="blank">Nikita Golubev</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/photo3idea-studio" target="blank">photo3idea_studio</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/vitaly-gorbachev" target="blank">Vitaly Gorbachev</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/eucalyp" target="blank">Eucalyp</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/ultimatearm" target="blank">ultimatearm</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/those-icons" target="blank">Those Icons</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p>Icon made by <a href="https://www.flaticon.com/authors/kiranshastry" target="blank">Kiranshastry</a> from <a href="https://www.flaticon.com/" target="blank">www.flaticon.com</a></p>,
+            <p><strong>헬스장 위치 데이터 출처</strong></p>,
+            <p>서울특별시 체력단련장 정보 : <a href="http://data.seoul.go.kr/dataList/OA-15207/S/1/datasetView.do;jsessionid=B6C3305B5F9050478F871D990F2A2307.new_portal-svr-11" target="blank">서울 열린데이터 광장</a></p>,
+            <p>성남시 체력단련장 정보 : <a href="https://www.data.go.kr/data/3078606/fileData.do" target="blank">공공데이터포털</a></p>,
+            <p>경기도 체력단련장 정보 : <a href="https://data.gg.go.kr/portal/data/service/selectServicePage.do?infId=W79O75LJ92OZ3P30IFST755934&infSeq=1" target="blank">경기데이터드림</a></p>
+        ]
+
         return (
         <main>
             <Loader type="ThreeDots" background="none" color="#666" promiseTracker={usePromiseTracker} />
-            <div className="rightsInfo">헬스장 위치 데이터 출처:서울열린데이터광장, 공공데이터포털, 경기데이터드림</div>
+            <div className="rightsInfoPc" onClick={() => {
+                this.setState({isShowModal: true})
+            }}>저작권 안내</div>
+            <ShowModal
+                    isShow={this.state.isShowModal}
+                    message={rights}
+                    onIsShowChange={this.handleIsShowChange} />
             <MapContents id="Mymap" />
             {(!this.state.isUpdateMode && this.state.selectedGym != null) ?
             <GymContent key='gymContent'

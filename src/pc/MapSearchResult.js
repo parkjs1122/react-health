@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import { Card, Badge } from "react-bootstrap";
 import { getDistance } from 'geolib';
-import './MapSearchResult.css';
 
 class MapSearchResult extends Component {
     render() {

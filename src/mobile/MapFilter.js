@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Form, Card, Navbar, Image } from "react-bootstrap";
-import './MapFilter.css';
 
 class MapFilter extends Component {
     constructor(props) {

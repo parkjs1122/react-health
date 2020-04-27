@@ -1,9 +1,10 @@
 /*global kakao*/
 import React, { Component } from "react";
-import { Card, Badge, FormControl, Nav, Navbar, Image } from "react-bootstrap";
+import { Card, Badge, FormControl, Navbar, Image } from "react-bootstrap";
 import { getDistance } from 'geolib';
 import debounce from 'lodash.debounce';
-import './MapSearchResult.css';
+import { usePromiseTracker, trackPromise } from "react-promise-tracker";
+import Loader from 'react-promise-loader';
 
 class MapSearchResult extends Component {
 
@@ -18,7 +19,7 @@ class MapSearchResult extends Component {
 
     onChangeDebounced = (value) => {
         if(value){
-            fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/name/' + value + '/' + this.props.nowLon + '/' + this.props.nowLat)
+            trackPromise(fetch(process.env.REACT_APP_SERVER_HOST + '/gym/get/name/' + value + '/' + this.props.nowLon + '/' + this.props.nowLat))
             .then(response => response.json())
             .then(data => {
                 this.setState({searchResult: data})
@@ -50,6 +51,7 @@ class MapSearchResult extends Component {
         ))) : null
         return (
             <div className="searchResult">
+                <Loader type="ThreeDots" background="none" color="#666" promiseTracker={usePromiseTracker} />
                 <Navbar bg="light" variant="light">
                     <Image
                         alt="뒤로가기"

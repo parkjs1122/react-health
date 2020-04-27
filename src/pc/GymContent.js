@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { OverlayTrigger, Tooltip, Badge, InputGroup, Form, Image, Button, Card } from "react-bootstrap";
-import './GymContent.css';
 
 class GymContent extends Component {
     constructor(props){

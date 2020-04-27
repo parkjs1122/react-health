@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import './Top.css';
 import { Image, Navbar, Nav, Form, Button } from "react-bootstrap";
 import { Formik } from 'formik';
 import * as Yup from 'yup';

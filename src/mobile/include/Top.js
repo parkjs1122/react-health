@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import './Top.css';
 import { Image, Navbar, Nav } from "react-bootstrap";
 
 class ZymContent extends Component {

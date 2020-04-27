@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import MapContent from './MapContent';
-import Top from './include/Top.js';
+import Top from './Top.js';
 import Div100vh from 'react-div-100vh';
 
 class App extends Component {

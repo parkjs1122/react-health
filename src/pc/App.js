@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import MapContent from './MapContent';
-import Top from './include/Top.js';
+import Top from './Top.js';
 
 class App extends Component {
   constructor(props){

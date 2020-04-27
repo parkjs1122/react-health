@@ -5,7 +5,7 @@ import GymContent from './GymContent';
 import GymUpdate from './GymUpdate';
 import GymInsert from './GymInsert';
 import MapFilter from './MapFilter';
-import ShowModal from './ShowModal';
+import ShowModal from '../component/ShowModal';
 import MapSearchResult from './MapSearchResult';
 import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 import Loader from 'react-promise-loader';
@@ -296,9 +296,10 @@ class MapContent extends Component {
                 this.setState({isShowModal: true})
             }}>저작권 안내</div>
             <ShowModal
-                    isShow={this.state.isShowModal}
-                    message={rights}
-                    onIsShowChange={this.handleIsShowChange} />
+                title='저작권 안내'
+                isShow={this.state.isShowModal}
+                message={rights}
+                onIsShowChange={this.handleIsShowChange} />
             <MapContents id="Mymap" />
             {(!this.state.isUpdateMode && this.state.selectedGym != null) ?
             <GymContent key='gymContent'

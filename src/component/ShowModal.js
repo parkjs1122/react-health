@@ -16,8 +16,8 @@ class ShowModal extends Component {
         return (
             <>   
             <Modal show={isShow}>
-                <Modal.Header closeButton>
-                <Modal.Title>안내</Modal.Title>
+                <Modal.Header closeButton onClick={this.handleChange}>
+                <Modal.Title>{this.props.title ? this.props.title : '안내'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{this.props.message}</Modal.Body>
                 <Modal.Footer>

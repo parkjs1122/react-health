@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { OverlayTrigger, Tooltip, InputGroup, Image, Button, Form, Card, Navbar } from "react-bootstrap";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import ShowModal from "./ShowModal";
+import ShowModal from "../component/ShowModal";
 import { usePromiseTracker, trackPromise } from "react-promise-tracker";
 import Loader from 'react-promise-loader';
 
